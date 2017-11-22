@@ -1,7 +1,7 @@
 var forwardInSpriteSheet = true;
 var groundY = 200;
 var yoshiVelocity = 7;
-var yoshiSpriteX = 0;
+var yoshiSpriteX = 200;
 var yoshiSpriteY = groundY;
 
 var jumpHeight = 50;
@@ -88,12 +88,12 @@ var goingUp = false;
                		forwardInSpriteSheet = true;
                		frameIndex += 1;
                	}
-
+/*
                	if(yoshiSpriteX+that.width > 500 || yoshiSpriteX < 0)
                		yoshiVelocity *= -1;
                 
                 yoshiSpriteX += yoshiVelocity;
-
+*/
                 if(!goingUp && yoshiSpriteY < groundY)
                 	yoshiSpriteY += jumpSpeed;
             }
@@ -123,7 +123,7 @@ var goingUp = false;
 	// Get canvas
 	canvas = document.getElementById("yoshiAnimation");
 	canvas.width = 500;
-	canvas.height = 500;
+	canvas.height = 380;
 	
 	// Create sprite sheet
 	yoshiImage = new Image();	
