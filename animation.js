@@ -9,6 +9,8 @@ var jumpSpeed = 10;
 var upperJumpBound = 50;
 var goingUp = false;
 
+var gameOver = false;
+
 var yoshiWidth;
 var yoshiHeight;
 var frameCount;
@@ -16,6 +18,7 @@ var yoshiRight = true;
 var dirChange = false;
 
 var lastImgChange = new Date().getTime();
+var lastScoreChange = new Date().getTime();
 var yoshiMotionDelay = 50;
 
 function start() 
@@ -34,11 +37,13 @@ function start()
 
 (function () {
 			
+	//var numRocks;
+	var score = 0;
 	var yoshi;
 	var yoshiImage;
 	var canvas;	
-	var rockImage;
-	var rock1;
+	//var rockImage;
+	//var rock1;
 
 
 	function gameLoop () {
@@ -46,13 +51,20 @@ function start()
 
 	  window.requestAnimationFrame(gameLoop);
 
-	  rock1.updateRock();
-	  rock1.renderRock();
+	  //rock1.updateRock();
+	  //rock1.renderRock();
 
-	  //yoshi.update();
-	  //yoshi.render();
+	  if(gameOver)
+	  {
+	  	updateDatabaseScores();
+	  }
+	  else
+	  {
+	  	yoshi.update();
+	  		yoshi.render();
+	  }
 	}
-
+/*
 	function rock (options) {
 		var rock ={};
 
@@ -88,7 +100,7 @@ function start()
 
 		return rock;
 	}
-	
+	*/
 	function sprite (options) {
 	
 		var fullSprite = {},
@@ -106,6 +118,13 @@ function start()
 		fullSprite.update = function () {
 
             var currTime = new Date().getTime();
+
+            if(currTime - lastScoreChange > 1000)
+            {
+            	score++;
+            	lastScoreChange = new Date().getTime();
+            	document.getElementById("score").innerHTML = score;
+            }
 
             if (currTime - lastImgChange > yoshiMotionDelay)
             {
@@ -198,7 +217,7 @@ function start()
 	// Load sprite sheet
 	yoshiImage.addEventListener("load", gameLoop);
 	yoshiImage.src = "yoshi_right.png";
-
+/*
 	rockImage = new Image();	
 
 	rock1 = rock({
@@ -209,12 +228,37 @@ function start()
 		x: 30,
 		y: 30,
 	});
-
-	rockImage.addEventListener("load", gameLoop);
-	rockImage.src = "rock.png";
+*/
+	//rockImage.addEventListener("load", gameLoop);
+	//rockImage.src = "rock.png";
 
 } ());
 
+function updateDatabaseScores()
+{
+	/*
+	<?php
+
+		session_start();
+
+		$query = "SELECT * FROM seat";
+
+		// Connect to MySQL
+		if ( !( $database = mysqli_connect( "db.peicloud.ca", "tauU", "tautau" ) ) )
+		    die( "<p>Could not connect to database</p></body></html>" );
+
+		if ( !mysqli_select_db( $database, "tauDB" ) )
+		    die( "<p>Could not open tauDB database</p></body></html>" );
+
+		// query flightseats database
+		if ( !( $result = mysqli_query( $database, $query ) ) ) 
+		{
+		    print( "<p>Could not execute query!</p>" );
+		    die( mysql_error() . "</body></html>" );
+		} // end if
+
+	?>*/
+}
 
 window.onkeydown = function(e) {
    var key = e.keyCode ? e.keyCode : e.which;

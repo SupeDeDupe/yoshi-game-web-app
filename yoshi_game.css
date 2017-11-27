@@ -1,3 +1,14 @@
+
+body
+         {
+            width: screen.width;
+            height: screen.height;
+            padding: 5px; 
+            background: -webkit-radial-gradient(center, yellow, green);
+            background: -moz-radial-gradient(center, yellow, green);
+            background: radial-gradient(center, yellow, green);
+         }
+
 #score {
 	margin: 0 auto;
 	text-align: center;
@@ -13,7 +24,7 @@
 	position: relative;
 	background-image: url("game_background2.jpg");
 	background-size: 100%;
-	width: 460px;
+	width: 500px;
 	height: auto;
 	margin: 0 auto;
 	padding-top: 24px;
@@ -26,5 +37,5 @@
 #yoshiGameContainer canvas {
 	margin: 0;
 	padding: 0;
-	width: 460px;
+	width: 500px;
 }
