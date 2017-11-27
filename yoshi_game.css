@@ -9,7 +9,7 @@
 	text-shadow: 2px 2px 1px #248742;
 }
 
-#coinTapGameContainer {
+#yoshiGameContainer {
 	position: relative;
 	background-image: url("game_background2.jpg");
 	background-size: 100%;
@@ -23,7 +23,7 @@
 	user-select: none;
 }
 
-#coinTapGameContainer canvas {
+#yoshiGameContainer canvas {
 	margin: 0;
 	padding: 0;
 	width: 460px;

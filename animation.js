@@ -1,6 +1,6 @@
 var forwardInSpriteSheet = true;
 var groundY = 200;
-var yoshiVelocity = 7;
+var yoshiVelocity = 10;
 var yoshiSpriteX = 200;
 var yoshiSpriteY = groundY;
 
@@ -9,66 +9,107 @@ var jumpSpeed = 10;
 var upperJumpBound = 50;
 var goingUp = false;
 
-(function() {
+var yoshiWidth;
+var yoshiHeight;
+var frameCount;
+var yoshiRight = true;
+var dirChange = false;
 
-    var lastTime = 0;
-    var vendors = ['ms', 'moz', 'webkit', 'o'];
-    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
-        window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] 
-                                   || window[vendors[x]+'CancelRequestAnimationFrame'];
-    }
- 
-    if (!window.requestAnimationFrame)
-        window.requestAnimationFrame = function(callback, element) {
-            var currTime = new Date().getTime();
-            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-            var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
-              timeToCall);
-            lastTime = currTime + timeToCall;
-            return id;
-        };
- 
-    if (!window.cancelAnimationFrame)
-        window.cancelAnimationFrame = function(id) {
-            clearTimeout(id);
-        };
-}());
+var lastImgChange = new Date().getTime();
+var yoshiMotionDelay = 50;
+
+function start() 
+{
+    window.requestAnimFrame = (function(){
+	return  window.requestAnimationFrame       || 
+			window.webkitRequestAnimationFrame || 
+			window.mozRequestAnimationFrame    || 
+			window.oRequestAnimationFrame      || 
+			window.msRequestAnimationFrame     || 
+			function(/* function */ callback, /* DOMElement */ element){
+				window.setTimeout(callback, 1000 / 60);
+			};
+	})();
+}
 
 (function () {
 			
-	var yoshi,
-		yoshiImage,
-		canvas;					
+	var yoshi;
+	var yoshiImage;
+	var canvas;	
+	var rockImage;
+	var rock1;
+
 
 	function gameLoop () {
 	
+
 	  window.requestAnimationFrame(gameLoop);
 
-	  yoshi.update();
-	  yoshi.render();
+	  rock1.updateRock();
+	  rock1.renderRock();
+
+	  //yoshi.update();
+	  //yoshi.render();
+	}
+
+	function rock (options) {
+		var rock ={};
+
+		rock.context = options.context;
+		rock.width = options.width;
+		rock.height = options.height;
+		rock.image = options.image;
+		rock.x = options.x;
+		rock.y = options.y;
+
+		rock.updateRock = function () {
+			if (rock.y < groundY)
+				rock.y += jumpSpeed;
+		};
+
+		rock.renderRock = function () {
+		
+		  // Clear the canvas
+		  rock.context.clearRect(0, 0, canvas.width, canvas.height);
+		  
+		  // Draw the animation
+		  rock.context.drawImage(
+		    rock.image,
+		    0,
+		    0,
+		    rock.width,
+		    rock.height,
+		    rock.x,
+		    rock.y,
+		    rock.width,
+		    rock.height);
+		};
+
+		return rock;
 	}
 	
 	function sprite (options) {
 	
-		var that = {},
+		var fullSprite = {},
 			frameIndex = 0,
-			tickCount = 0,
-			ticksPerFrame = options.ticksPerFrame || 0,
 			numberOfFrames = options.numberOfFrames || 1;
 		
-		that.context = options.context;
-		that.width = options.width;
-		that.height = options.height;
-		that.image = options.image;
+		fullSprite.context = options.context;
+		fullSprite.width = options.width;
+		fullSprite.height = options.height;
+		fullSprite.image = options.image;
+
+		yoshiWidth = fullSprite.width / numberOfFrames;
+		yoshiHeight = fullSprite.height / numberOfFrames;
 		
-		that.update = function () {
+		fullSprite.update = function () {
 
-            tickCount += 1;
+            var currTime = new Date().getTime();
 
-            if (tickCount > ticksPerFrame) {
-
-				tickCount = 0;
+            if (currTime - lastImgChange > yoshiMotionDelay)
+            {
+            	lastImgChange = new Date().getTime();
 				
                 // If the current frame index is in range
                 if (frameIndex < numberOfFrames - 1 && forwardInSpriteSheet) {	
@@ -89,41 +130,58 @@ var goingUp = false;
                		frameIndex += 1;
                	}
 /*
-               	if(yoshiSpriteX+that.width > 500 || yoshiSpriteX < 0)
+               	if(yoshiSpriteX+fullSprite.width / numberOfFrames > 500 || yoshiSpriteX < 0)
                		yoshiVelocity *= -1;
                 
                 yoshiSpriteX += yoshiVelocity;
 */
                 if(!goingUp && yoshiSpriteY < groundY)
                 	yoshiSpriteY += jumpSpeed;
+
+                if (dirChange)
+                {
+                	yoshiRight = !yoshiRight;
+                	if (yoshiRight)
+                	{
+						yoshi.image.src = "yoshi_right.png";
+                	}
+		  			else
+		  			{
+		  				yoshi.image.src = "yoshi_left.png";
+		  			}
+		  			dirChange = false;
+		  			//document.getElementById("score").innerHTML = yoshi.ticksPerFrame;
+		  			//var why = window.prompt(yoshi.ticksPerFrame );
+		  		}
+                
             }
         };
 		
-		that.render = function () {
+		fullSprite.render = function () {
 		
 		  // Clear the canvas
-		  that.context.clearRect(0, 0, canvas.width, canvas.height);
+		  fullSprite.context.clearRect(0, 0, canvas.width, canvas.height);
 		  
 		  // Draw the animation
-		  that.context.drawImage(
-		    that.image,
-		    frameIndex * that.width / numberOfFrames,
+		  fullSprite.context.drawImage(
+		    fullSprite.image,
+		    frameIndex * fullSprite.width / numberOfFrames,
 		    0,
-		    that.width / numberOfFrames,
-		    that.height,
+		    fullSprite.width / numberOfFrames,
+		    fullSprite.height,
 		    yoshiSpriteX,
 		    yoshiSpriteY,
-		    that.width / numberOfFrames,
-		    that.height);
+		    fullSprite.width / numberOfFrames,
+		    fullSprite.height);
 		};
 		
-		return that;
+		return fullSprite;
 	}
 	
 	// Get canvas
 	canvas = document.getElementById("yoshiAnimation");
 	canvas.width = 500;
-	canvas.height = 380;
+	canvas.height = 310;
 	
 	// Create sprite sheet
 	yoshiImage = new Image();	
@@ -135,27 +193,55 @@ var goingUp = false;
 		height: 40,
 		image: yoshiImage,
 		numberOfFrames: 5,
-		ticksPerFrame: 4
 	});
 	
 	// Load sprite sheet
 	yoshiImage.addEventListener("load", gameLoop);
-	yoshiImage.src = "yoshi5.png";
+	yoshiImage.src = "yoshi_right.png";
+
+	rockImage = new Image();	
+
+	rock1 = rock({
+		context: canvas.getContext("2d"),
+		width: 50,
+		height: 50,
+		image: rockImage,
+		x: 30,
+		y: 30,
+	});
+
+	rockImage.addEventListener("load", gameLoop);
+	rockImage.src = "rock.png";
 
 } ());
+
 
 window.onkeydown = function(e) {
    var key = e.keyCode ? e.keyCode : e.which;
 
-
-   if (key == 38) {
+   // jump up
+   if (key == 38 && yoshiSpriteY+yoshiHeight > 35) 
+   {
        yoshiSpriteY -= jumpHeight;
-   } /*else if (key == 40) {
+   } 
+   // jump down
+   else if (key == 40) 
+   {
    		if(yoshiSpriteY < groundY)
        		yoshiSpriteY += 10;
-   } else if (key == 39) {
-       yoshiSpriteX += 5;
-   }else if (key == 37) {
-       yoshiSpriteX -= 5;
-   }*/
+   } 
+   // Walk right
+   else if (key == 39 && yoshiSpriteX+yoshiWidth < 500) 
+   {
+       yoshiSpriteX += yoshiVelocity;
+       if (!yoshiRight)
+       	dirChange = true;
+   }
+   // Walk left
+   else if (key == 37 && yoshiSpriteX > 0) 
+   {
+       yoshiSpriteX -= yoshiVelocity;
+       if (yoshiRight)
+       	dirChange = true;
+   }
 }
