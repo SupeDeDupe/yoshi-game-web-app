@@ -4,11 +4,11 @@ session_start();
 $query = "SELECT * FROM score";
 
 // Connect to MySQL
-if ( !( $database = mysqli_connect( "localhost", "root", "" ) ) )
+if ( !( $database = mysqli_connect( "db.peicloud.ca", "tauU", "tautau" ) ) )
     die( "<p>Could not connect to database</p></body></html>" );
 
-if ( !mysqli_select_db( $database, "flightseats" ) )
-    die( "<p>Could not open the database</p></body></html>" );
+if ( !mysqli_select_db( $database, "tauDB" ) )
+    die( "<p>Could not open tauDB database</p></body></html>" );
 
 // query flightseats database
 if ( !( $result = mysqli_query( $database, $query ) ) ) 
@@ -87,11 +87,11 @@ mysqli_close( $database );
                 {
 
                     // Connect to MySQL
-                if ( !( $database = mysqli_connect( "localhost", "root", "" ) ) )
-                    die( "<p>Could not connect to database</p></body></html>" );
+                    if ( !( $database = mysqli_connect( "db.peicloud.ca", "tauU", "tautau" ) ) )
+                        die( "<p>Could not connect to database</p></body></html>" );
 
-                if ( !mysqli_select_db( $database, "flightseats" ) )
-                    die( "<p>Could not open the database</p></body></html>" );
+                    if ( !mysqli_select_db( $database, "tauDB" ) )
+                        die( "<p>Could not open tauDB database</p></body></html>" );
 
                     $user = $_SESSION["username"];
                     $score = $_GET['score'];

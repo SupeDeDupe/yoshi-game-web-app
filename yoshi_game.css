@@ -69,8 +69,8 @@ img{
 	background-image: url("game_background2.jpg");
 	background-size: 100%;
 	background-repeat: no-repeat;
-	width: 680px;
-	height: 500px;
+	width: 544px;
+	height: 400px;
 	margin: 0 auto;
 	padding-top: 24px;
 	-webkit-user-select: none;  
@@ -82,6 +82,6 @@ img{
 #yoshiGameContainer canvas {
 	margin: 0;
 	padding: 0;
-	width: 680px;
-	height: 500px;
+	width: 544px;
+	height: 400px;
 }

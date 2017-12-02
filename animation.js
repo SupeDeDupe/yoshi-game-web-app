@@ -16,8 +16,8 @@ gameOverImg.src = "gameover.png";
 gameOverHeight = 100;
 gameOverWidth = 300;
 
-canvas.width = 680;
-canvas.height = 500;
+canvas.width = 544;
+canvas.height = 400;
 
 var gameOverX = canvas.width / 2 - gameOverWidth/2;
 var gameOverY = canvas.height / 3 - gameOverHeight/2;
@@ -89,7 +89,6 @@ function startGame()
     	ctx.drawImage(gameOverImg, gameOverX, gameOverY, gameOverWidth, gameOverHeight);
 	  	document.getElementById("scoreToSave").value = score;
 	  	document.getElementById("saveButton").disabled = false;
-	  	updateScores();
 	  }
 	  else
 	  {
@@ -289,38 +288,6 @@ function startGame()
 	yoshiImage.addEventListener("load", gameLoop);
 	yoshiImage.src = "yoshi_right.png";
 } ());
-
-function updateScores()
-{
-/*
-	<?php
-
-		$_SESSION["lastScore"] = score;
-
-	?>
-	/*
-	<?php
-
-		session_start();
-
-		$query = "SELECT * FROM seat";
-
-		// Connect to MySQL
-		if ( !( $database = mysqli_connect( "db.peicloud.ca", "tauU", "tautau" ) ) )
-		    die( "<p>Could not connect to database</p></body></html>" );
-
-		if ( !mysqli_select_db( $database, "tauDB" ) )
-		    die( "<p>Could not open tauDB database</p></body></html>" );
-
-		// query flightseats database
-		if ( !( $result = mysqli_query( $database, $query ) ) ) 
-		{
-		    print( "<p>Could not execute query!</p>" );
-		    die( mysql_error() . "</body></html>" );
-		} // end if
-
-	?>*/
-}
 
 window.onkeydown = function(e) {
    var key = e.keyCode ? e.keyCode : e.which;
