@@ -1,10 +1,5 @@
 
 
-var forwardInSpriteSheet = true;
-var groundY = 310;
-var yoshiVelocity = 10;
-var yoshiSpriteX = 200;
-var yoshiSpriteY = groundY;
 
 var score = 0;
 var yoshi;
@@ -18,6 +13,12 @@ gameOverWidth = 300;
 
 canvas.width = 544;
 canvas.height = 400;
+
+var forwardInSpriteSheet = true;
+var groundY = canvas.height * 0.57;
+var yoshiVelocity = 10;
+var yoshiSpriteX = 200;
+var yoshiSpriteY = groundY;
 
 var gameOverX = canvas.width / 2 - gameOverWidth/2;
 var gameOverY = canvas.height / 3 - gameOverHeight/2;
