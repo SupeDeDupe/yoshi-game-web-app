@@ -1,4 +1,5 @@
 
+
 var forwardInSpriteSheet = true;
 var groundY = 310;
 var yoshiVelocity = 10;
@@ -34,9 +35,6 @@ var rockSize = 30;
 var rockStartY = -30;
 var maxRocks = 5;
 
-//var numstars = 0;
-//var maxstars = 5;
-//var starValuesX = new Array ();
 var starCollected = true;
 var starSize = 20;
 var starX;
@@ -61,8 +59,7 @@ var lastYoshiImgChange = new Date().getTime();
 var lastScoreChange = new Date().getTime();
 var yoshiMotionDelay = 50;
 
-
-function start() 
+function startGame() 
 {
     window.requestAnimFrame = (function(){
 	return  window.requestAnimationFrame       || 
@@ -87,8 +84,6 @@ function start()
 
 	  if(gameOver)
 	  {
-	  	//document.getElementById("gameover").innerHTML = "Game Over!";
-	  	
 	  	var ctx=canvas.getContext("2d");
     	
     	ctx.drawImage(gameOverImg, gameOverX, gameOverY, gameOverWidth, gameOverHeight);
