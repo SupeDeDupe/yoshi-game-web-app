@@ -6,16 +6,19 @@
         <link rel="stylesheet" type="text/css" href="yoshi_game.css" />
     </head>
     <body>
-        <p id = "name_id" class = "name">
-            <?php 
-                print(  "Name: " ); 
-                print(  $_POST["name"] ); 
-            ?>
-        </p>
-    	<div id="yoshiGameContainer">
-        	<div id="score">0</div>
-			<canvas id="yoshiAnimation"></canvas>
-		</div>
-        <script src="animation.js"></script>
+
+        <div class="bg">
+            <p id = "name_id" class = "name">
+                <?php 
+                    print(  "Name: " ); 
+                    print(  $_POST["name"] ); 
+                ?>
+            </p>
+        	<div id="yoshiGameContainer">
+            	<div id="score">0</div>
+    			<canvas id="yoshiAnimation"></canvas>
+    		</div>
+            <script src="animation.js"></script>
+        </div>
     </body>
 </html>

@@ -1,8 +1,34 @@
+
 var forwardInSpriteSheet = true;
-var groundY = 200;
+var groundY = 430;
 var yoshiVelocity = 10;
 var yoshiSpriteX = 200;
 var yoshiSpriteY = groundY;
+
+var score = 0;
+var yoshi;
+var yoshiImage;
+var canvas = document.getElementById("yoshiAnimation");
+var numRocks = 0;
+var rocksFalling = new Array ();
+var rockValuesX = new Array ();
+var rockValuesY = new Array ();
+var rocksLanded = new Array ();
+var rockIndex = 0;
+var rockSpeed = 1;
+var endArray = false;
+
+var rockSize = 30;
+var rockStartY = -30;
+var maxRocks = 5;
+
+//var numCoins = 0;
+//var maxCoins = 5;
+//var coinValuesX = new Array ();
+var coinCollected = true;
+var coinSize = 20;
+var coinX;
+var coinY = groundY + coinSize;
 
 var jumpHeight = 50;
 var jumpSpeed = 10;
@@ -17,9 +43,12 @@ var frameCount;
 var yoshiRight = true;
 var dirChange = false;
 
-var lastImgChange = new Date().getTime();
+var lastRockMade = new Date().getTime();
+var lastRockImgUpdate = new Date().getTime();
+var lastYoshiImgChange = new Date().getTime();
 var lastScoreChange = new Date().getTime();
 var yoshiMotionDelay = 50;
+
 
 function start() 
 {
@@ -36,71 +65,112 @@ function start()
 }
 
 (function () {
-			
-	//var numRocks;
-	var score = 0;
-	var yoshi;
-	var yoshiImage;
-	var canvas;	
-	//var rockImage;
-	//var rock1;
-
 
 	function gameLoop () {
 	
 
 	  window.requestAnimationFrame(gameLoop);
 
-	  //rock1.updateRock();
-	  //rock1.renderRock();
+	  var time = new Date().getTime();
 
 	  if(gameOver)
 	  {
+	  	//document.getElementById("gameover").innerHTML = "Game Over!";
 	  	updateDatabaseScores();
 	  }
 	  else
 	  {
 	  	yoshi.update();
-	  		yoshi.render();
+	  	yoshi.render();
+	  	
+
+	  	if(coinCollected)
+	  		addCoin();
+
+	  	drawCoin();
+
+	  	if (time - lastRockMade > 1000)
+	  	{
+	  		addRock();
+	  		lastRockMade = time;
+	  	}
+
+	  	for (var i = 0; i < numRocks; i++) {
+	  		drawRock(i);
+	  		if (rockValuesY[i] < groundY + rockSize)
+	  		{
+	  			if (time - lastRockImgUpdate > 10)
+	  				rockValuesY[i] = rockValuesY[i]+rockSpeed;
+	  		}
+	  		else
+	  		{
+	  			rocksFalling[i] = false;
+	  			rocksLanded[rocksLanded.length] = i;
+	  		}
+	  	}
+
+	  	if (time - lastRockImgUpdate > 10)
+	  		lastRockImgUpdate = new Date().getTime();
+	  	
+	  	rockSpeed = score+1;
 	  }
 	}
-/*
-	function rock (options) {
-		var rock ={};
 
-		rock.context = options.context;
-		rock.width = options.width;
-		rock.height = options.height;
-		rock.image = options.image;
-		rock.x = options.x;
-		rock.y = options.y;
-
-		rock.updateRock = function () {
-			if (rock.y < groundY)
-				rock.y += jumpSpeed;
-		};
-
-		rock.renderRock = function () {
-		
-		  // Clear the canvas
-		  rock.context.clearRect(0, 0, canvas.width, canvas.height);
-		  
-		  // Draw the animation
-		  rock.context.drawImage(
-		    rock.image,
-		    0,
-		    0,
-		    rock.width,
-		    rock.height,
-		    rock.x,
-		    rock.y,
-		    rock.width,
-		    rock.height);
-		};
-
-		return rock;
+	function addCoin()
+	{
+		coinX = Math.floor( -10 + Math.random() *  canvas.width);
+		coinCollected = false;
 	}
-	*/
+
+
+	function drawCoin(rockIndex) {
+		var ctx=canvas.getContext("2d");
+    	var img = new Image();
+    	img.src="camel.png";
+    	
+    	ctx.drawImage(img, coinX, coinY, coinSize, coinSize);
+    	if(Math.abs(coinX - yoshiSpriteX ) < coinSize
+    		&& Math.abs(coinY - yoshiSpriteY) < coinSize + 10
+    		&& !coinCollected)
+    	{
+    			coinCollected = true;
+    			score++;
+            	lastScoreChange = new Date().getTime();
+            	document.getElementById("score").innerHTML = score;
+    	}
+	}
+
+	function addRock()
+	{
+		if (rocksLanded.length > maxRocks)
+		{
+			rockIndex = rocksLanded[0];
+			rocksLanded = new Array();
+			endArray = true;
+		}
+
+		rockValuesX[rockIndex] = Math.floor( -10 + Math.random() *  canvas.width);
+		rockValuesY[rockIndex] = rockStartY;
+		rocksFalling[rockIndex] = true;
+		rockIndex++;
+
+		if (!endArray)
+			numRocks++;
+	}
+
+
+	function drawRock(rockIndex) {
+		var ctx=canvas.getContext("2d");
+    	var img = new Image();
+    	img.src="rock.png";
+    	
+    	ctx.drawImage(img, rockValuesX[rockIndex], rockValuesY[rockIndex], rockSize, rockSize);
+    	if(Math.abs(rockValuesX[rockIndex] - yoshiSpriteX ) < rockSize -5
+    		&& Math.abs(rockValuesY[rockIndex] - yoshiSpriteY) < rockSize - 10
+    		&& rocksFalling[rockIndex])
+    			gameOver = true;
+	}
+
 	function sprite (options) {
 	
 		var fullSprite = {},
@@ -121,14 +191,14 @@ function start()
 
             if(currTime - lastScoreChange > 1000)
             {
-            	score++;
+            	//score++;
             	lastScoreChange = new Date().getTime();
             	document.getElementById("score").innerHTML = score;
             }
 
-            if (currTime - lastImgChange > yoshiMotionDelay)
+            if (currTime - lastYoshiImgChange > yoshiMotionDelay)
             {
-            	lastImgChange = new Date().getTime();
+            	lastYoshiImgChange = new Date().getTime();
 				
                 // If the current frame index is in range
                 if (frameIndex < numberOfFrames - 1 && forwardInSpriteSheet) {	
@@ -148,12 +218,7 @@ function start()
                		forwardInSpriteSheet = true;
                		frameIndex += 1;
                	}
-/*
-               	if(yoshiSpriteX+fullSprite.width / numberOfFrames > 500 || yoshiSpriteX < 0)
-               		yoshiVelocity *= -1;
-                
-                yoshiSpriteX += yoshiVelocity;
-*/
+
                 if(!goingUp && yoshiSpriteY < groundY)
                 	yoshiSpriteY += jumpSpeed;
 
@@ -169,8 +234,6 @@ function start()
 		  				yoshi.image.src = "yoshi_left.png";
 		  			}
 		  			dirChange = false;
-		  			//document.getElementById("score").innerHTML = yoshi.ticksPerFrame;
-		  			//var why = window.prompt(yoshi.ticksPerFrame );
 		  		}
                 
             }
@@ -197,10 +260,8 @@ function start()
 		return fullSprite;
 	}
 	
-	// Get canvas
-	canvas = document.getElementById("yoshiAnimation");
-	canvas.width = 500;
-	canvas.height = 310;
+	canvas.width = 900;
+	canvas.height = 680;
 	
 	// Create sprite sheet
 	yoshiImage = new Image();	
@@ -217,21 +278,6 @@ function start()
 	// Load sprite sheet
 	yoshiImage.addEventListener("load", gameLoop);
 	yoshiImage.src = "yoshi_right.png";
-/*
-	rockImage = new Image();	
-
-	rock1 = rock({
-		context: canvas.getContext("2d"),
-		width: 50,
-		height: 50,
-		image: rockImage,
-		x: 30,
-		y: 30,
-	});
-*/
-	//rockImage.addEventListener("load", gameLoop);
-	//rockImage.src = "rock.png";
-
 } ());
 
 function updateDatabaseScores()
@@ -275,7 +321,7 @@ window.onkeydown = function(e) {
        		yoshiSpriteY += 10;
    } 
    // Walk right
-   else if (key == 39 && yoshiSpriteX+yoshiWidth < 500) 
+   else if (key == 39 && yoshiSpriteX+yoshiWidth < 900) 
    {
        yoshiSpriteX += yoshiVelocity;
        if (!yoshiRight)

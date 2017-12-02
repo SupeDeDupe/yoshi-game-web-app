@@ -1,13 +1,28 @@
+label  { width: 5em; float: left; }
 
-body
-         {
-            width: screen.width;
-            height: screen.height;
-            padding: 5px; 
-            background: -webkit-radial-gradient(center, yellow, green);
-            background: -moz-radial-gradient(center, yellow, green);
-            background: radial-gradient(center, yellow, green);
-         }
+body, html {
+	height: 100%;
+	margin: 0;
+	}
+
+.bg {
+    /* The image used */
+    background-image: url("img_girl.jpg");
+
+    /* Full height */
+    height: 100%; 
+
+    width: screen.width;
+    height: screen.height;
+    padding: 5px; 
+    background: -webkit-radial-gradient(center, lightgreen, darkgreen);
+    background: -moz-radial-gradient(center, lightgreen, darkgreen);
+    background: radial-gradient(center, lightgreen, darkgreen);
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 
 #score {
 	margin: 0 auto;
@@ -20,12 +35,25 @@ body
 	text-shadow: 2px 2px 1px #248742;
 }
 
+#gameover {
+	margin: 0 auto;
+	text-align: center;
+	color: #0000FF;
+	font-weight: bold;
+	padding-top: 24px;
+	font-size: 50px;
+	-moz-text-shadow: 2px 2px 1px #248742;
+	-webkit-text-shadow: 2px 4px 1px #248742;
+	text-shadow: 2px 2px 1px #248742;
+}
+
 #yoshiGameContainer {
 	position: relative;
 	background-image: url("game_background2.jpg");
 	background-size: 100%;
-	width: 500px;
-	height: auto;
+	background-repeat: no-repeat;
+	width: 900px;
+	height: 680px;
 	margin: 0 auto;
 	padding-top: 24px;
 	-webkit-user-select: none;  
@@ -37,5 +65,6 @@ body
 #yoshiGameContainer canvas {
 	margin: 0;
 	padding: 0;
-	width: 500px;
+	width: 900px;
+	height: 680px;
 }

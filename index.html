@@ -4,34 +4,25 @@
    <head>
       <meta charset = "utf-8">
       <title>Animated Yoshi Game</title>
-      <style type = "text/css">
-         label  { width: 5em; float: left; }
-         body
-         {
-            width: screen.width;
-            height: screen.height;
-            padding: 5px; 
-            background: -webkit-radial-gradient(center, yellow, green);
-            background: -moz-radial-gradient(center, yellow, green);
-            background: radial-gradient(center, yellow, green);
-         }
-      </style>
+      <link rel="stylesheet" type="text/css" href="yoshi_game.css" />
    </head>
    <body>
-      <h1>Yoshi Game</h1>
 
-      <p>Enter your name or handle: </p>
-   
-      <form method = "post" action = "game.php" >
+      <div class="bg">
+         <h1>Yoshi Game</h1>
 
-         <div><label>Name:</label> 
-            <input type = "text" name = "name" required></div>
-         </div>
+         <p>Enter your name or handle: </p>
+      
+         <form method = "post" action = "game.php" >
 
-         <!-- create a submit button -->
-         <p><input type = "submit" name = "submit" value = "Start Game!"></p>
-      </form>
+            <div><label>Name:</label> 
+               <input type = "text" name = "name" required></div>
 
-      <p>This site was tested using Google Chrome</p>
+            <!-- create a submit button -->
+            <p><input type = "submit" name = "submit" value = "Start Game!"></p>
+         </form>
+
+         <p>This site was tested using Google Chrome</p>
+      </div>
    </body>
 </html>
