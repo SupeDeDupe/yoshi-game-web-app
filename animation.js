@@ -88,7 +88,7 @@ function startGame()
     	
     	ctx.drawImage(gameOverImg, gameOverX, gameOverY, gameOverWidth, gameOverHeight);
 	  	document.getElementById("scoreToSave").value = score;
-
+	  	document.getElementById("saveButton").disabled = false;
 	  	updateScores();
 	  }
 	  else

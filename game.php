@@ -71,7 +71,7 @@ mysqli_close( $database );
 
             <form method="get" action="game.php">
                 <p class = "buttons">
-                    <button type = "submit" name="save" value="save">Save Score</button>
+                    <button id="saveButton" type = "submit" name="save" value="save" disabled>Save Score</button>
                     <button type="submit">Restart</button>
                     <input id = "scoreToSave" type = "hidden" name = "score">
                 </p>        

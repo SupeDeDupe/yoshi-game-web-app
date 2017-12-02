@@ -26,6 +26,7 @@ $_SESSION["alreadyLoaded"] = false;
             <div><label>Name:</label> 
                <input type = "text" name = "name" required></div>
 
+               <p>Remember to save your high score when game over!</p>
             <!-- create a submit button -->
             <p><input type = "submit" name = "submit" value = "Start Game!"></p>
          </form>
