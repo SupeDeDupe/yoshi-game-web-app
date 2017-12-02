@@ -1,0 +1,20 @@
+
+
+Terminal commands:
+
+/Applications/XAMPP/xamppfiles/bin/mysql --host=db.peicloud.ca --user=tauU -p
+use tauDB;
+
+
+locally:
+
+/Applications/xampp/xamppfiles/bin/mysql -u root -p
+create database flightseats;
+use flightseats;
+
+create table score(
+    -> Username char(20),
+    -> ScoreValue Integer Not Null
+    -> );
+
+Insert into score(Username, ScoreValue) values ('NOBODY',0);

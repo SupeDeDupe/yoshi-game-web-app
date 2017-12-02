@@ -87,7 +87,9 @@ function startGame()
 	  	var ctx=canvas.getContext("2d");
     	
     	ctx.drawImage(gameOverImg, gameOverX, gameOverY, gameOverWidth, gameOverHeight);
-	  	updateDatabaseScores();
+	  	document.getElementById("scoreToSave").value = score;
+
+	  	updateScores();
 	  }
 	  else
 	  {
@@ -288,8 +290,14 @@ function startGame()
 	yoshiImage.src = "yoshi_right.png";
 } ());
 
-function updateDatabaseScores()
+function updateScores()
 {
+/*
+	<?php
+
+		$_SESSION["lastScore"] = score;
+
+	?>
 	/*
 	<?php
 
@@ -329,7 +337,7 @@ window.onkeydown = function(e) {
        		yoshiSpriteY += 10;
    } 
    // Walk right
-   else if (key == 39 && yoshiSpriteX+yoshiWidth < 900) 
+   else if (key == 39 && yoshiSpriteX+yoshiWidth < 680) 
    {
        yoshiSpriteX += yoshiVelocity;
        if (!yoshiRight)
