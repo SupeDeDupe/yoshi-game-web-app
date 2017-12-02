@@ -1,6 +1,6 @@
 
 var forwardInSpriteSheet = true;
-var groundY = 430;
+var groundY = 310;
 var yoshiVelocity = 10;
 var yoshiSpriteX = 200;
 var yoshiSpriteY = groundY;
@@ -9,6 +9,18 @@ var score = 0;
 var yoshi;
 var yoshiImage;
 var canvas = document.getElementById("yoshiAnimation");
+
+var gameOverImg = new Image();
+gameOverImg.src = "gameover.png";
+gameOverHeight = 100;
+gameOverWidth = 300;
+
+canvas.width = 680;
+canvas.height = 500;
+
+var gameOverX = canvas.width / 2 - gameOverWidth/2;
+var gameOverY = canvas.height / 3 - gameOverHeight/2;
+
 var numRocks = 0;
 var rocksFalling = new Array ();
 var rockValuesX = new Array ();
@@ -22,13 +34,13 @@ var rockSize = 30;
 var rockStartY = -30;
 var maxRocks = 5;
 
-//var numCoins = 0;
-//var maxCoins = 5;
-//var coinValuesX = new Array ();
-var coinCollected = true;
-var coinSize = 20;
-var coinX;
-var coinY = groundY + coinSize;
+//var numstars = 0;
+//var maxstars = 5;
+//var starValuesX = new Array ();
+var starCollected = true;
+var starSize = 20;
+var starX;
+var starY = groundY + 5;
 
 var jumpHeight = 50;
 var jumpSpeed = 10;
@@ -76,6 +88,10 @@ function start()
 	  if(gameOver)
 	  {
 	  	//document.getElementById("gameover").innerHTML = "Game Over!";
+	  	
+	  	var ctx=canvas.getContext("2d");
+    	
+    	ctx.drawImage(gameOverImg, gameOverX, gameOverY, gameOverWidth, gameOverHeight);
 	  	updateDatabaseScores();
 	  }
 	  else
@@ -84,10 +100,10 @@ function start()
 	  	yoshi.render();
 	  	
 
-	  	if(coinCollected)
-	  		addCoin();
+	  	if(starCollected)
+	  		addstar();
 
-	  	drawCoin();
+	  	drawstar();
 
 	  	if (time - lastRockMade > 1000)
 	  	{
@@ -116,24 +132,24 @@ function start()
 	  }
 	}
 
-	function addCoin()
+	function addstar()
 	{
-		coinX = Math.floor( -10 + Math.random() *  canvas.width);
-		coinCollected = false;
+		starX = Math.floor( -10 + Math.random() *  canvas.width);
+		starCollected = false;
 	}
 
 
-	function drawCoin(rockIndex) {
+	function drawstar(rockIndex) {
 		var ctx=canvas.getContext("2d");
     	var img = new Image();
-    	img.src="camel.png";
+    	img.src="star.png";
     	
-    	ctx.drawImage(img, coinX, coinY, coinSize, coinSize);
-    	if(Math.abs(coinX - yoshiSpriteX ) < coinSize
-    		&& Math.abs(coinY - yoshiSpriteY) < coinSize + 10
-    		&& !coinCollected)
+    	ctx.drawImage(img, starX, starY, starSize, starSize);
+    	if(Math.abs(starX - yoshiSpriteX ) < starSize
+    		&& Math.abs(starY - yoshiSpriteY) < starSize + 10
+    		&& !starCollected)
     	{
-    			coinCollected = true;
+    			starCollected = true;
     			score++;
             	lastScoreChange = new Date().getTime();
             	document.getElementById("score").innerHTML = score;
@@ -259,9 +275,6 @@ function start()
 		
 		return fullSprite;
 	}
-	
-	canvas.width = 900;
-	canvas.height = 680;
 	
 	// Create sprite sheet
 	yoshiImage = new Image();	
