@@ -19,19 +19,20 @@ $_SESSION["alreadyLoaded"] = false;
       <div class="bg">
          <h1>Yoshi Game</h1>
 
-         <p>Enter your name or handle: </p>
+         <p class="info">Enter your name or handle: </p>
       
          <form method = "post" action = "game.php" >
 
-            <div><label>Name:</label> 
+            <div class="info"><label>Name:</label> 
                <input type = "text" name = "name" required></div>
 
-               <p>Remember to save your high score when game over!</p>
+               <p class="whiteWords">Avoid the falling rocks and collect the stars. Move Yoshi with the arrow keys.</p>
+               <p class="whiteWords">Remember to save your high score when game over!</p>
             <!-- create a submit button -->
-            <p><input type = "submit" name = "submit" value = "Start Game!"></p>
+            <p><button type="submit">Start Game!</button></p>
          </form>
 
-         <p>This site was tested using Google Chrome</p>
+         <p class="whiteWords">This site was tested using Google Chrome</p>
       </div>
    </body>
 </html>

@@ -41,6 +41,29 @@ img{
     background-size: cover;
 }
 
+.whiteWords {
+	color: #fff;
+	font-size: 16px;
+}
+
+h1 {
+	color: #fff;
+	font-weight: bold;
+	font-size: 28px;
+	-moz-text-shadow: 2px 2px 1px #248742;
+	-webkit-text-shadow: 2px 4px 1px #248742;
+	text-shadow: 2px 2px 1px #248742;
+}
+
+.info {
+	color: #fff;
+	font-weight: bold;
+	font-size: 22px;
+	-moz-text-shadow: 2px 2px 1px #248742;
+	-webkit-text-shadow: 2px 4px 1px #248742;
+	text-shadow: 2px 2px 1px #248742;
+}
+
 #score {
 	margin: 0 auto;
 	text-align: center;

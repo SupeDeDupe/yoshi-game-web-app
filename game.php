@@ -47,7 +47,7 @@ mysqli_close( $database );
     <body>
 
         <div class="bg">
-            <p id = "name_id" class = "name">
+            <p id = "name_id" class = "info">
                 <?php 
                     if (! $_SESSION["alreadyLoaded"])
                         $_SESSION["username"] = $_POST["name"];
@@ -106,6 +106,10 @@ mysqli_close( $database );
                       }
 
                     mysqli_close( $database );
+
+                    echo '<script type="text/javascript">
+                        window.location = "http://tau.peicloud.ca/game.php"
+                        </script>';
                     
                 }
 
