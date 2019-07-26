@@ -305,7 +305,7 @@ window.onkeydown = function(e) {
        		yoshiSpriteY += 10;
    } 
    // Walk right
-   else if (key == 39 && yoshiSpriteX+yoshiWidth < 680) 
+   else if (key == 39 && yoshiSpriteX+yoshiWidth < canvas.width) 
    {
        yoshiSpriteX += yoshiVelocity;
        if (!yoshiRight)
